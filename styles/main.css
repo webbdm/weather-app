@@ -1,0 +1,41 @@
+body {
+  background: url(https://images.freecreatives.com/wp-content/uploads/2016/02/Smooth-HD-Blue-Green-Background.jpg) no-repeat center center fixed;
+  background-size: cover; }
+
+.navBox {
+  padding-right: 0; }
+
+.navbar {
+  background-color: rgba(9, 45, 57, 0.7);
+  border: none;
+  padding: 0px; }
+
+.navbar-brand {
+  margin: 0;
+  padding: 0; }
+  .navbar-brand h1 {
+    float: none;
+    margin: 5px; }
+
+.searchBox {
+  background-color: rgba(9, 45, 57, 0.4);
+  width: 25%;
+  display: flex;
+  height: 100%; }
+  .searchBox a {
+    font-size: 1.5em;
+    padding-right: 10px;
+    margin-top: 4%; }
+
+.search {
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  color: white;
+  padding-bottom: 30px;
+  font-size: 1.2em; }
+  .search :active {
+    outline: 0; }
+
+.submit {
+  cursor: pointer; }
