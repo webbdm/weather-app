@@ -1,20 +1,27 @@
 $(document).ready(function() {
-	
+
     const key = "";
-        
+
     const validateZip = enteredZip => {
         if (enteredZip.length == 5) {
             console.log("zip is valid");
+            dataGetter(enteredZip);
         } else {
             console.log("INVALID");
         }
     };
 
+    $(".submit").submit((e) => {
+        e.preventDefault();
+    });
+
     // Listeners
     $("#textInput").keyup(event => {
         if (event.which == 13) {
             var enteredZip = $("#textInput").val();
-            validateZip(enteredZip);
+            validateZip(enteredZip).then((result) => {
+
+            });
         }
     });
     $("#searchIcon").click(() => {
@@ -22,24 +29,26 @@ $(document).ready(function() {
         validateZip(enteredZip);
     });
 
-    const loadCurrent = path => {
-        // Creates a new Promise with any filepath
+    const currentWeather = (zip) => {
         return new Promise((resolve, reject) => {
-            $.ajax(path)
-                .done(data1 => {
-                    resolve(data1);
-                })
-                .fail(error => {
-                    reject(error);
-                });
+            $.ajax(`api.openweathermap.org/data/2.5/weather?zip=${zip},us`)
+                .done((data) => resolve(data.results))
+                .fail((error) => reject(error));
         });
     };
 
-    const dataGetter = input => {
-        Promise.all([dataCall(input)])
+    const forecast = (zip) => {
+        return new Promise((resolve, reject) => {
+            $.ajax(`api.openweathermap.org/data/2.5/forecast/daily?zip=${zip},us`)
+                .done((data) => resolve(data.results))
+                .fail((error) => reject(error));
+        });
+    };
+
+    const dataGetter = (enteredZip) => {
+        Promise.all([currentWeather(enteredZip), forecast(enteredZip)])
             .then(result => {
-                //array = result[i].something
-                // writeDOM
+                console.log(result);
             })
             .catch(error => {
                 console.log(error);
