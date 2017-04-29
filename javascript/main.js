@@ -32,15 +32,25 @@ $(document).ready(function() {
     });
 
     const writeCurrentWeather = (currentData) => {
-    	let string = "";
+        let string = "";
 
-    	string += `<h1>${currentData.name}<h1>`;
+        $("#zipArea").html(`<h1>${currentData.name}<h1>`);
 
-    	$("#zipArea").html(string);
+        string += `<div class="col-md-12">
+        		   <div class="thumbnail">
+        		   <p>Temperature: ${currentData.main.temp}<p>
+    			   <p>Conditions: ${currentData.weather[0].description}</p>
+    			   <p>Air Pressure: ${currentData.main.pressure}</p>
+    			   <p>Temperature: ${currentData.wind.speed}</p>
+    			   <a href="#">Click for Forecast</a>
+    			   </div>
+    			   </div>`;
+        $("#weather").html(string);
+
     };
 
     const writeForecast = (forecastData) => {
-    	
+
     };
 
     const loadCurrentWeather = (zip) => {

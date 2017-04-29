@@ -39,3 +39,10 @@ body {
 
 .submit {
   cursor: pointer; }
+
+.thumbnail {
+  background-color: transparent;
+  border: none;
+  margin: 10% 0 0 0; }
+  .thumbnail p {
+    font-size: 3em; }
