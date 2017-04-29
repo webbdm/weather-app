@@ -2,6 +2,9 @@ $(document).ready(function() {
 
     const key = "";
 
+    let currentWeather = [""];
+    let forecast = [""];
+
     const validateZip = enteredZip => {
         if (enteredZip.length == 5) {
             console.log("zip is valid");
@@ -16,39 +19,53 @@ $(document).ready(function() {
     });
 
     // Listeners
-    $("#textInput").keyup(event => {
+    $("#textInput").keyup((event) => {
         if (event.which == 13) {
             var enteredZip = $("#textInput").val();
-            validateZip(enteredZip).then((result) => {
-
-            });
+            validateZip(enteredZip);
         }
     });
+
     $("#searchIcon").click(() => {
         var enteredZip = $("#textInput").val();
         validateZip(enteredZip);
     });
 
-    const currentWeather = (zip) => {
+    const writeCurrentWeather = (currentData) => {
+    	let string = "";
+
+    	string += `<h1>${currentData.name}<h1>`;
+
+    	$("#zipArea").html(string);
+    };
+
+    const writeForecast = (forecastData) => {
+    	
+    };
+
+    const loadCurrentWeather = (zip) => {
         return new Promise((resolve, reject) => {
-            $.ajax(`api.openweathermap.org/data/2.5/weather?zip=${zip},us`)
-                .done((data) => resolve(data.results))
+            $.ajax(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&units=imperial&APPID=${key}`)
+                .done((data) => resolve(data))
                 .fail((error) => reject(error));
         });
     };
 
-    const forecast = (zip) => {
+    const loadForecast = (zip) => {
         return new Promise((resolve, reject) => {
-            $.ajax(`api.openweathermap.org/data/2.5/forecast/daily?zip=${zip},us`)
-                .done((data) => resolve(data.results))
+            $.ajax(`http://api.openweathermap.org/data/2.5/forecast/daily?zip=${zip},us&units=imperial&APPID=${key}`)
+                .done((data) => resolve(data))
                 .fail((error) => reject(error));
         });
     };
 
     const dataGetter = (enteredZip) => {
-        Promise.all([currentWeather(enteredZip), forecast(enteredZip)])
+        Promise.all([loadCurrentWeather(enteredZip), loadForecast(enteredZip)])
             .then(result => {
-                console.log(result);
+                currentWeather = result[0];
+                forecast = result[1];
+                writeCurrentWeather(currentWeather);
+                console.log(currentWeather, forecast);
             })
             .catch(error => {
                 console.log(error);
