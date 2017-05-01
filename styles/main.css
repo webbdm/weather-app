@@ -46,3 +46,7 @@ body {
   margin: 10% 0 0 0; }
   .thumbnail p {
     font-size: 3em; }
+
+.forecastBox {
+  border: 1px solid black;
+  border-radius: 5px; }

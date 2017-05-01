@@ -37,20 +37,54 @@ $(document).ready(function() {
         $("#zipArea").html(`<h1>${currentData.name}<h1>`);
 
         string += `<div class="col-md-12">
-        		   <div class="thumbnail">
-        		   <p>Temperature: ${currentData.main.temp}<p>
-    			   <p>Conditions: ${currentData.weather[0].description}</p>
-    			   <p>Air Pressure: ${currentData.main.pressure}</p>
-    			   <p>Temperature: ${currentData.wind.speed}</p>
-    			   <a href="#">Click for Forecast</a>
-    			   </div>
-    			   </div>`;
+                   <div class="thumbnail">
+                   <p>Temperature: ${currentData.main.temp}<p>
+                   <p>Conditions: ${currentData.weather[0].description}</p>
+                   <p>Air Pressure: ${currentData.main.pressure}</p>
+                   <p>Wind: ${currentData.wind.speed}</p>
+                   <a href="#" id="threeDay">Click for 3-Day Forecast</a>
+                   <a href="#" id="sevenDay">Click for 7-Day Forecast</a>
+                   </div>
+                   <div id="forecastBox" class="container forecastBox"></div>
+                   </div>`;
+
         $("#weather").html(string);
+
+        $("#threeDay").click(() => {
+            spliceForecast(3);
+        });
+
+        $("#sevenDay").click(() => {
+            spliceForecast(7);
+        });
 
     };
 
-    const writeForecast = (forecastData) => {
+    const spliceForecast = (days) => {
 
+        let threeDays = forecast.list.slice(0, 3);
+        let sevenDays = forecast.list.slice(0, 7);
+
+        if (days === 3) {
+            writeForecast(threeDays);
+        } else {
+            writeForecast(sevenDays);
+        }
+    };
+
+    const writeForecast = (selectedDays) => {
+        console.log(selectedDays);
+        let string = "";
+
+        selectedDays.forEach((currentDay) => {
+            string += `<div class="col-md-2 forecastDays">
+                       <p>Temperature: ${currentDay.temp.day}<p>
+                       <p>Conditions: ${currentDay.weather[0].main}</p>
+                       <p>Air Pressure: ${currentDay.pressure}</p>
+                       <p>Wind: ${currentDay.speed}</p>
+                       </div>`;
+        });
+        $("#forecastBox").html(string);
     };
 
     const loadCurrentWeather = (zip) => {
@@ -75,7 +109,7 @@ $(document).ready(function() {
                 currentWeather = result[0];
                 forecast = result[1];
                 writeCurrentWeather(currentWeather);
-                console.log(currentWeather, forecast);
+                //console.log(currentWeather, forecast);
             })
             .catch(error => {
                 console.log(error);
